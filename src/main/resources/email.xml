@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="javaMailSender">
+		<property name="host" value="smtp.gmail.com"/>
+		<property name="port" value="587"/>
+		<property name="username" value="hansung181818"/>
+		<property name="password" value="gkstjd~~!"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean class="site.nicezo.util.EmailSendBean" id="emailSendBean">
+		<property name="mailSender" ref="javaMailSender"></property>
+	</bean>
+	
+	<bean class="site.nicezo.util.EmailSendAdvice" id="emailSendAdvice"/>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* sendEmail(..))" id="emailSendPointCut"/>
+	
+		<aop:aspect ref="emailSendAdvice">
+			<aop:before method="beforeLog" pointcut-ref="emailSendPointCut"/>
+			<aop:after-returning method="successLog" pointcut-ref="emailSendPointCut" returning="email"/>
+			<aop:after-throwing method="failLog" pointcut-ref="emailSendPointCut" throwing="exception"/>
+		</aop:aspect>
+	</aop:config>	
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.nicezo.mapper.CourseGalleryMapper">
+	<select id="selectCourseGallery" resultType="CourseGallery">
+		select * from course_gallery where course_gallery_course_name=#{courseName}
+			and course_gallery_hole_no=#{holeNo} order by course_gallery_id
+	</select>
+	
+	<select id="selectCourseGalleryList" resultType="CourseGallery">
+		select * from course_gallery where course_gallery_course_name=#{courseName} 
+			order by course_gallery_id
+	</select>
+</mapper>

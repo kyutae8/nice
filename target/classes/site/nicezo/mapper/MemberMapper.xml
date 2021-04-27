@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.nicezo.mapper.MemberMapper">
+	<insert id="insertMember">
+		insert into member values(#{id},#{password},#{name},#{email},#{zipcode},#{address1},#{address2}
+		,#{phone},1,sysdate)
+	</insert>
+	
+	<insert id="insertAdmin">
+		insert into member values(#{id},#{password},#{name},#{email},#{zipcode},#{address1},#{address2}
+		,#{phone},#{status},sysdate)
+	</insert>
+	
+	<update id="updateMember">
+		update member
+		<set>
+			<if test="password!=null and password!=''">
+				password=#{password},
+			</if>
+				<if test="email!=null and email!=''">
+				email=#{email},
+			</if>
+			<if test="zipcode!=null and zipcode!=''">
+				zipcode=#{zipcode},
+			</if>
+			<if test="address1!=null and address1!=''">
+				address1=#{address1},
+			</if>
+			<if test="address2!=null and address2!=''">
+				address2=#{address2},
+			</if>
+			<if test="phone!=null and phone!=''">
+				phone=#{phone},
+			</if>
+			<if test="status!=null and status!=''">
+				status=#{status}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	
+	<update id="updateMemberAdmin">
+		update member
+		<set>
+			<if test="id!=null and id!=''">
+				id=#{id},
+			</if>
+			<if test="password!=null and password!=''">
+				password=#{password},
+			</if>
+			<if test="email!=null and email!=''">
+				email=#{email},
+			</if>
+			<if test="zipcode!=null and zipcode!=''">
+				zipcode=#{zipcode},
+			</if>
+			<if test="address1!=null and address1!=''">
+				address1=#{address1},
+			</if>
+			<if test="address2!=null and address2!=''">
+				address2=#{address2},
+			</if>
+			<if test="phone!=null and phone!=''">
+				phone=#{phone},
+			</if>
+			<if test="status!=null and status!=''">
+				status=#{status}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<update id="deleteMember">
+		update member set status=5 where id=#{id}
+	</update>
+	
+	<select id="selectMember" resultType="Member">
+		select * from member where id=#{id}
+	</select>
+	
+	<select id="findId" resultType="Member">
+		select name,id from member where name = #{name} and email = #{email}
+	</select>
+	
+	<update id="findPw">
+		update member set password = #{password} where id = #{id} and name=#{name} and email=#{email}
+	</update>
+	
+	<select id="selectMemberList" resultType="Member">
+		select * from (select rownum rn, temp.* from (select * from member order by id desc) temp) 
+			where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="selectMemberCount" resultType="int">
+		select count(*) from member
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.nicezo.mapper.HoleMapper">
+	<select id="selectHoleList" resultType="Hole">
+		select * from hole order by hole_id
+	</select>
+	
+	<select id="selectHoleCourseList" resultType="Hole">
+		select * from hole where hole_course_name=#{courseName} order by hole_id
+	</select>
+	
+	<select id="selectHoleId" resultType="Hole">
+		select * from hole where hole_id = #{holeId}
+	</select>
+	
+	<select id ="selectHoleParList" resultType="Map">
+		select hole_no, hole_par from hole where hole_course_name=#{courseName} order by hole_no
+	</select>
+	<select id="selectHoleCount" resultType="int">
+		select count(*) from hole 
+	</select>
+</mapper>

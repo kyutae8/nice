@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.nicezo.mapper.ReservationMapper">
+<!-- RES_COSNAME     VARCHAR2(20) 
+RES_MYDATE      DATE         
+RES_CANCEL      NUMBER       
+RES_ID          VARCHAR2(20) 
+RES_NAME        VARCHAR2(20) 
+RES_EMAIL       VARCHAR2(20) 
+RES_PHONE       VARCHAR2(20) 
+RES_ADDRESS     VARCHAR2(20) 
+RES_PLAYTIME    VARCHAR2(20) 
+RES_RESDATE     DATE         
+RES_CODE        NUMBER        -->
+
+	<insert id="insertRes">
+		insert into res values(#{resCosname},sysdate,10,#{resId},#{resName},#{resPlaytime},to_date(#{resResdate},'yyyy-MM-dd'),resseq.nextval)
+	</insert>
+	<delete id="deleteRes">
+	delete from res where res_code=#{resCode}
+	</delete>
+	<update id="cancelRes">
+		update res set res_cancel=20 where res_code=#{resCode}
+	</update>
+	<select id="selectResCancel" resultType="Reservation">
+	select * from res where res_resdate=to_date(#{resResdate},'yyyy-MM-dd') and res_playtime=#{resPlaytime} and res_cosname=#{resCosname}
+	</select>
+	<select id="selectResList" resultType="Reservation">
+		select * from res where res_cancel=10 order by res_code
+	</select>
+	<select id="selectRes" resultType="Reservation">
+		select * from res order by res_code
+	</select>
+	<select id="selectResCount" resultType="int">
+		select count(*) from res
+	</select>
+	<select id="selectRescosCount" resultType="int">
+		select count(*) from res where res_cosname=#{resCosname}
+	</select>
+	<select id="selectResplayCount" resultType="int">
+		select count(*) from res where res_playtime=#{resPlaytime}
+	</select>
+	<select id="selectResMemberList" resultType="Reservation">
+		select res.res_id, member.phone from res join member on res.res_id=member.id where res_id=#{resId}
+	</select>
+</mapper>
